@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aadivers.net/sitemap.xml
+
+# Disallow admin or private paths
+Disallow: /private/
+Disallow: /admin/

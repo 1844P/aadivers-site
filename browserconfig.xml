@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square150x150logo src="https://media.base44.com/images/public/6a0b332e6fc0aa11257122ee/7c58e7b1f_logo.png"/>
+      <TileColor>#0a2a4a</TileColor>
+      <square70x70logo src="https://media.base44.com/images/public/6a0b332e6fc0aa11257122ee/7c58e7b1f_logo.png"/>
+      <square310x310logo src="https://media.base44.com/images/public/6a0b332e6fc0aa11257122ee/7c58e7b1f_logo.png"/>
+      <wide310x150logo src="https://media.base44.com/images/public/6a0b332e6fc0aa11257122ee/7c58e7b1f_logo.png"/>
+      <TileImage src="https://media.base44.com/images/public/6a0b332e6fc0aa11257122ee/7c58e7b1f_logo.png"/>
+    </tile>
+  </msapplication>
+</browserconfig>
