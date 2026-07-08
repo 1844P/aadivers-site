@@ -200,6 +200,24 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; }
               radial-gradient(ellipse at 50% 80%, rgba(10,42,74,0.8) 0%, transparent 50%),
               linear-gradient(135deg, #0a2a4a 0%, #0d4a7a 40%, #1a7a9a 100%);
 }
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    105deg,
+    transparent 0px, transparent 120px,
+    rgba(255,255,255,0.03) 120px, rgba(255,255,255,0.03) 130px,
+    transparent 130px, transparent 280px,
+    rgba(255,255,255,0.02) 280px, rgba(255,255,255,0.02) 290px,
+    transparent 290px, transparent 400px
+  );
+  animation: causticDrift 12s linear infinite;
+  pointer-events: none;
+}
+@keyframes causticDrift {
+  0% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(30px) translateY(-20px); }
+  100% { transform: translateX(0) translateY(0); }
+}
 .bubbles { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
 .bubble {
   position: absolute; bottom: -60px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
@@ -221,7 +239,10 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; }
   100% { transform: translateY(-110vh) scale(0.3); opacity: 0; }
 }
 .hero-content { position: relative; z-index: 2; text-align: center; color: var(--color-white); padding: var(--space-2xl) 0; }
-.hero-badge { display: inline-flex; align-items: center; gap: var(--space-sm); padding: 0.4rem 1.2rem; border: 1px solid rgba(255,255,255,0.25); border-radius: 100px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-lg); backdrop-filter: blur(4px); }
+.hero-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); margin-bottom: var(--space-lg); }
+.hero-badge { display: inline-flex; align-items: center; gap: var(--space-sm); padding: 0.4rem 1.2rem; border: 1px solid rgba(255,255,255,0.25); border-radius: 100px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; backdrop-filter: blur(4px); }
+.hero-badge--pro { background: rgba(200,80,80,0.25); border-color: rgba(200,80,80,0.5); }
+.hero-badge--pro i { color: #ff6b6b; }
 .hero-title { font-family: var(--font-serif); font-size: clamp(2.8rem, 8vw, 5.5rem); font-weight: 700; line-height: 1.1; margin-bottom: var(--space-lg); text-shadow: 0 2px 20px rgba(0,0,0,0.3); }
 .hero-subtitle { font-size: clamp(1rem, 2vw, 1.25rem); max-width: 640px; margin: 0 auto var(--space-xl); color: rgba(255,255,255,0.85); line-height: 1.7; }
 .hero-ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
@@ -229,6 +250,10 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; }
 .stat { text-align: center; }
 .stat-number { display: block; font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--color-white); }
 .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.05em; }
+.hero-pro-stats { display: flex; justify-content: center; gap: var(--space-md); margin-top: var(--space-xl); flex-wrap: wrap; }
+.pro-stat { display: flex; align-items: center; gap: var(--space-sm); padding: 0.35rem 1rem; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 100px; font-size: 0.75rem; color: rgba(255,255,255,0.85); letter-spacing: 0.02em; backdrop-filter: blur(4px); }
+.pro-stat i { color: var(--color-shallows); font-size: 0.75rem; }
+[data-theme="dark"] .pro-stat { background: rgba(255,255,255,0.06); }
 .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: var(--space-xs); color: rgba(255,255,255,0.5); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; animation: bounce 2s infinite; }
 .hero-scroll i { font-size: 1rem; }
 @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
