@@ -820,7 +820,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; }
 
 /* FAQ wallpaper */
 .wallpaper-faq {
-  background-image: url('../images/wallpapers/faq-bg.png');
+  background-image: url('../images/wallpapers/faq-bg.jpg');
 }
 .wallpaper-faq .section-title,
 .wallpaper-faq .section-tag,
