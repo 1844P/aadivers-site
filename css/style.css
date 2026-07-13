@@ -396,11 +396,12 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 600; }
   height: auto;
   border-radius: var(--border-radius);
   box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-  animation: welcomeFloat 4s ease-in-out infinite alternate;
+  animation: welcomeFloat 2s ease-in-out infinite;
 }
 @keyframes welcomeFloat {
-  0%   { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-8px) scale(1.015); }
+  0%   { opacity: 0.3; transform: scale(1); }
+  50%  { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0.3; transform: scale(1); }
 }
 .welcome-image { position: relative; }
 .welcome-image::before {
