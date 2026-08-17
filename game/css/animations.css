@@ -1,0 +1,180 @@
+﻿/* ============================================
+   ANIMATIONS — Caribbean Underwater Ambiance
+   ============================================ */
+
+/* Light ray animations - volumetric Caribbean sunlight */
+@keyframes lightRaySway1 {
+  0% { transform: translateX(-3%) skewX(-1.5deg) scaleX(0.95); opacity: 0.6; }
+  50% { transform: translateX(2%) skewX(1deg) scaleX(1.05); opacity: 0.8; }
+  100% { transform: translateX(4%) skewX(2deg) scaleX(0.98); opacity: 0.65; }
+}
+@keyframes lightRaySway2 {
+  0% { transform: translateX(2%) skewX(1deg) scaleX(1.02); opacity: 0.5; }
+  50% { transform: translateX(-3%) skewX(-2deg) scaleX(0.96); opacity: 0.7; }
+  100% { transform: translateX(1%) skewX(0.5deg) scaleX(1.01); opacity: 0.55; }
+}
+@keyframes lightRaySway3 {
+  0% { transform: translateX(-2%) skewX(-1deg); opacity: 0.55; }
+  100% { transform: translateX(3%) skewX(1.5deg); opacity: 0.75; }
+}
+
+@keyframes causticShift {
+  0% { transform: scale(1) translateY(0) rotate(0deg); }
+  50% { transform: scale(1.03) translateY(-5px) rotate(0.5deg); }
+  100% { transform: scale(1.06) translateY(-12px) rotate(-0.5deg); }
+}
+
+@keyframes swayGrass {
+  0% { transform: skewX(-4deg) translateX(-3px) scaleY(1.02); }
+  100% { transform: skewX(4deg) translateX(3px) scaleY(0.98); }
+}
+
+@keyframes bubbleRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.6;
+  }
+  15% { transform: translateY(-15vh) translateX(8px) scale(1.01); }
+  35% { transform: translateY(-35vh) translateX(-6px) scale(1.02); }
+  55% { transform: translateY(-55vh) translateX(10px) scale(0.99); }
+  75% { transform: translateY(-75vh) translateX(-4px) scale(1.01); }
+  100% {
+    transform: translateY(-110vh) translateX(3px) scale(0.95);
+    opacity: 0;
+  }
+}
+
+@keyframes emblemRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes drawSeahorse {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes revealSlideIn {
+  0% {
+    opacity: 0; transform: translateY(15px);
+  }
+  100% {
+    opacity: 1; transform: translateY(0);
+  }
+}
+
+@keyframes streakPulse {
+  0% { box-shadow: 0 0 10px rgba(242,100,25,0.1); }
+  100% { box-shadow: 0 0 25px rgba(242,100,25,0.3); }
+}
+
+@keyframes cardEnter {
+  0% {
+    opacity: 0; transform: translateY(40px) scale(0.96);
+    filter: blur(3px);
+  }
+  60% {
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1; transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1; transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0; transform: translateY(-40px) scale(0.96);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes correctFlash {
+  0% { box-shadow: 0 0 0 0 rgba(76,175,80,0.4); }
+  30% { box-shadow: 0 0 40px 10px rgba(76,175,80,0.2); }
+  100% { box-shadow: 0 0 0 0 rgba(76,175,80,0); }
+}
+
+@keyframes wrongShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  50% { opacity: 1; transform: translateY(-40px) scale(1.2); }
+  100% { opacity: 0; transform: translateY(-80px) scale(1.4); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes shimmerGold {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Water shimmer effect on surface */
+@keyframes waterShimmer {
+  0%, 100% { opacity: 0.5; transform: translateX(0); }
+  25% { opacity: 0.8; transform: translateX(5px); }
+  50% { opacity: 0.6; transform: translateX(-3px); }
+  75% { opacity: 0.9; transform: translateX(2px); }
+}
+
+/* Underwater sway for cards */
+@keyframes underwaterSway {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-2px) rotate(0.1deg); }
+  75% { transform: translateY(2px) rotate(-0.1deg); }
+}
+
+/* Score popup */
+.score-popup {
+  position: fixed; z-index: 100;
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
+  color: var(--gold-light); pointer-events: none;
+  animation: floatUp 1.2s var(--ease-out-expo) forwards;
+  text-shadow: 0 0 25px rgba(212,175,55,0.6), 0 0 50px rgba(212,175,55,0.3);
+}
+
+.score-popup.wrong {
+  color: var(--wrong);
+  text-shadow: 0 0 25px rgba(239,83,80,0.6), 0 0 50px rgba(239,83,80,0.3);
+}
+
+/* Card animation classes */
+.card-entering {
+  animation: cardEnter 0.6s var(--ease-out-expo) forwards;
+}
+
+.card-exiting {
+  animation: cardExit 0.4s var(--ease-out-expo) forwards;
+}
+
+.card-correct {
+  animation: correctFlash 0.8s ease-out;
+}
+
+.card-wrong {
+  animation: wrongShake 0.5s ease-out;
+}
+
+/* Ambient underwater sway on question card */
+.question-card {
+  animation: underwaterSway 6s ease-in-out infinite;
+}

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Do You Think? — Soufrière Underwater Discovery</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ====== MULTI-LAYER OCEAN BACKGROUND ====== -->
+  <div id="ocean-bg" class="ocean-background">
+    <!-- Layer 1: Deep gradient -->
+    <div class="ocean-gradient"></div>
+
+    <!-- Layer 2: Animated canvas particles (plankton, light motes) -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Layer 3: Volumetric light rays from surface -->
+    <div class="light-rays-container">
+      <div class="light-ray ray-1"></div>
+      <div class="light-ray ray-2"></div>
+      <div class="light-ray ray-3"></div>
+      <div class="light-ray ray-4"></div>
+    </div>
+
+    <!-- Layer 4: Water surface shimmer at top -->
+    <div class="water-surface">
+      <svg class="surface-wave" viewBox="0 0 1440 60" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(135,206,235,0.12)"/>
+            <stop offset="100%" stop-color="rgba(10,22,40,0)"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#waveGrad)">
+          <animate attributeName="d"
+            values="M0,30 C180,10 360,50 540,30 C720,10 900,50 1080,30 C1260,10 1440,40 1440,30 L1440,0 L0,0 Z;
+                    M0,25 C180,45 360,15 540,35 C720,55 900,15 1080,35 C1260,55 1440,20 1440,35 L1440,0 L0,0 Z;
+                    M0,30 C180,10 360,50 540,30 C720,10 900,50 1080,30 C1260,10 1440,40 1440,30 L1440,0 L0,0 Z"
+            dur="8s" repeatCount="indefinite"/>
+        </path>
+      </svg>
+    </div>
+
+    <!-- Layer 5: Caustic light patterns -->
+    <div class="caustics"></div>
+    <div class="caustics-2"></div>
+
+    <!-- Layer 6: Depth haze (gets darker as you go deeper) -->
+    <div class="depth-haze" id="depth-haze"></div>
+
+    <!-- Layer 7: Bright Soufrière Coral Watermark -->
+    <div class="coral-watermark">
+      <svg viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg" class="coral-watermark-svg">
+        <defs>
+          <radialGradient id="wm-glow" cx="50%" cy="60%" r="55%">
+            <stop offset="0%" stop-color="rgba(255,127,80,0.12)"/>
+            <stop offset="60%" stop-color="rgba(46,196,182,0.06)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <linearGradient id="wm-coral1" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff6b6b" stop-opacity="0.18"/>
+            <stop offset="50%" stop-color="#ff8a65" stop-opacity="0.14"/>
+            <stop offset="100%" stop-color="#ffb74d" stop-opacity="0.08"/>
+          </linearGradient>
+          <linearGradient id="wm-coral2" x1="100%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#2ec4b6" stop-opacity="0.16"/>
+            <stop offset="50%" stop-color="#4dd0c3" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#88d498" stop-opacity="0.06"/>
+          </linearGradient>
+          <linearGradient id="wm-coral3" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="#e040fb" stop-opacity="0.14"/>
+            <stop offset="50%" stop-color="#ce93d8" stop-opacity="0.10"/>
+            <stop offset="100%" stop-color="#f48fb1" stop-opacity="0.06"/>
+          </linearGradient>
+          <linearGradient id="wm-coral4" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffd54f" stop-opacity="0.12"/>
+            <stop offset="50%" stop-color="#ffab40" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="#ff8a65" stop-opacity="0.04"/>
+          </linearGradient>
+          <linearGradient id="wm-fan" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="#d4af37" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#f5e6a3" stop-opacity="0.05"/>
+          </linearGradient>
+          <linearGradient id="wm-seafoam" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#2ec4b6" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#88d498" stop-opacity="0.04"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Background glow -->
+        <ellipse cx="450" cy="420" rx="400" ry="280" fill="url(#wm-glow)"/>
+
+        <!-- === STAGHORN CORAL CLUSTER (left) === -->
+        <g opacity="0.9">
+          <!-- Main trunk -->
+          <path d="M120,680 Q115,580 120,500 Q125,440 118,380 Q112,320 120,260 Q128,200 122,150"
+                stroke="url(#wm-coral1)" stroke-width="8" stroke-linecap="round" fill="none"/>
+          <!-- Branches -->
+          <path d="M120,380 Q95,340 80,290 Q70,250 75,210" stroke="url(#wm-coral1)" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M120,380 Q145,330 160,280 Q168,240 162,200" stroke="url(#wm-coral1)" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M120,300 Q90,265 78,220 Q72,185 80,155" stroke="url(#wm-coral1)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M120,300 Q150,260 165,220 Q172,185 165,150" stroke="url(#wm-coral1)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M120,220 Q100,185 95,150 Q92,120 98,95" stroke="url(#wm-coral1)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M120,220 Q140,185 148,150 Q152,120 145,95" stroke="url(#wm-coral1)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <!-- Tiny branch tips -->
+          <path d="M80,290 Q65,270 58,245" stroke="url(#wm-coral1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M160,280 Q175,260 182,235" stroke="url(#wm-coral1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M78,220 Q62,200 58,175" stroke="url(#wm-coral1)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M165,220 Q180,200 185,175" stroke="url(#wm-coral1)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <!-- === BRAIN CORAL (center-left) === -->
+        <g opacity="0.85">
+          <ellipse cx="300" cy="590" rx="85" ry="65" fill="url(#wm-coral2)" stroke="url(#wm-coral2)" stroke-width="2"/>
+          <!-- Brain grooves -->
+          <path d="M240,580 Q260,570 280,575 Q300,580 320,570 Q340,560 360,570 Q375,578 380,590"
+                stroke="rgba(10,60,80,0.15)" stroke-width="1.5" fill="none"/>
+          <path d="M245,600 Q270,590 295,595 Q320,600 345,592 Q365,585 378,595"
+                stroke="rgba(10,60,80,0.12)" stroke-width="1.2" fill="none"/>
+          <path d="M250,618 Q275,610 300,615 Q325,620 350,612 Q368,606 375,615"
+                stroke="rgba(10,60,80,0.10)" stroke-width="1" fill="none"/>
+          <!-- Polyp texture dots -->
+          <circle cx="270" cy="575" r="3" fill="rgba(46,196,182,0.08)"/>
+          <circle cx="310" cy="585" r="2.5" fill="rgba(46,196,182,0.07)"/>
+          <circle cx="340" cy="575" r="2" fill="rgba(46,196,182,0.06)"/>
+          <circle cx="290" cy="600" r="2.5" fill="rgba(46,196,182,0.07)"/>
+          <circle cx="330" cy="608" r="2" fill="rgba(46,196,182,0.06)"/>
+        </g>
+
+        <!-- === FAN CORAL (center) === -->
+        <g opacity="0.8">
+          <!-- Fan stalk -->
+          <path d="M450,680 Q448,620 450,560 Q452,510 450,460"
+                stroke="url(#wm-fan)" stroke-width="6" stroke-linecap="round" fill="none"/>
+          <!-- Fan body -->
+          <path d="M450,460 Q380,420 360,370 Q345,320 360,270 Q380,225 420,200 Q450,185 480,200 Q520,225 540,270 Q555,320 540,370 Q520,420 450,460 Z"
+                fill="url(#wm-fan)" stroke="url(#wm-fan)" stroke-width="1.5"/>
+          <!-- Fan veins -->
+          <path d="M450,460 Q430,400 420,340 Q415,290 425,250" stroke="rgba(212,175,55,0.10)" stroke-width="1" fill="none"/>
+          <path d="M450,460 Q450,400 450,340 Q450,290 450,245" stroke="rgba(212,175,55,0.08)" stroke-width="1" fill="none"/>
+          <path d="M450,460 Q470,400 480,340 Q485,290 475,250" stroke="rgba(212,175,55,0.10)" stroke-width="1" fill="none"/>
+          <path d="M450,460 Q410,410 395,350 Q385,300 395,260" stroke="rgba(212,175,55,0.06)" stroke-width="0.8" fill="none"/>
+          <path d="M450,460 Q490,410 505,350 Q515,300 505,260" stroke="rgba(212,175,55,0.06)" stroke-width="0.8" fill="none"/>
+        </g>
+
+        <!-- === STAGHORN CORAL (right) === -->
+        <g opacity="0.85">
+          <path d="M680,680 Q675,590 680,510 Q685,450 678,390 Q672,340 680,280 Q688,230 682,180"
+                stroke="url(#wm-coral3)" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <path d="M680,390 Q655,350 645,305 Q638,265 642,230" stroke="url(#wm-coral3)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M680,390 Q705,345 715,300 Q720,260 715,225" stroke="url(#wm-coral3)" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+          <path d="M680,310 Q655,275 648,235 Q644,200 650,170" stroke="url(#wm-coral3)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M680,310 Q705,275 712,235 Q716,200 710,170" stroke="url(#wm-coral3)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M680,240 Q662,210 658,178 Q655,150 660,128" stroke="url(#wm-coral3)" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <path d="M680,240 Q698,210 702,178 Q705,150 700,128" stroke="url(#wm-coral3)" stroke-width="3" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <!-- === SECOND BRAIN CORAL (right) === -->
+        <g opacity="0.75">
+          <ellipse cx="790" cy="610" rx="65" ry="50" fill="url(#wm-coral4)" stroke="url(#wm-coral4)" stroke-width="1.5"/>
+          <path d="M740,600 Q760,592 780,596 Q800,600 820,594 Q835,588 845,596"
+                stroke="rgba(80,50,10,0.10)" stroke-width="1.2" fill="none"/>
+          <path d="M745,618 Q770,610 795,615 Q815,620 830,614"
+                stroke="rgba(80,50,10,0.08)" stroke-width="1" fill="none"/>
+        </g>
+
+        <!-- === SEA FAN (far right) === -->
+        <g opacity="0.65">
+          <path d="M850,680 Q848,640 850,600 Q852,570 850,540"
+                stroke="url(#wm-seafoam)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M850,540 Q820,515 810,485 Q805,455 815,430 Q830,410 850,405 Q870,410 885,430 Q895,455 890,485 Q880,515 850,540 Z"
+                fill="url(#wm-seafoam)" stroke="url(#wm-seafoam)" stroke-width="1"/>
+          <path d="M850,540 Q840,500 835,465 Q832,435 840,415" stroke="rgba(46,196,182,0.06)" stroke-width="0.8" fill="none"/>
+          <path d="M850,540 Q860,500 865,465 Q868,435 860,415" stroke="rgba(46,196,182,0.06)" stroke-width="0.8" fill="none"/>
+        </g>
+
+        <!-- === SEA GRASS PATCHES === -->
+        <g opacity="0.5">
+          <path d="M200,680 Q195,640 202,600 Q198,570 205,535" stroke="url(#wm-seafoam)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M210,680 Q215,645 208,610 Q214,575 210,545" stroke="url(#wm-seafoam)" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M560,680 Q555,645 562,610 Q558,575 564,545" stroke="url(#wm-seafoam)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <path d="M570,680 Q575,650 568,615 Q574,580 570,550" stroke="url(#wm-seafoam)" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </g>
+
+        <!-- === FLOATING PARTICLES (plankton dots) === -->
+        <g opacity="0.4">
+          <circle cx="200" cy="200" r="2" fill="#ff8a65" opacity="0.2"/>
+          <circle cx="350" cy="150" r="1.5" fill="#2ec4b6" opacity="0.18"/>
+          <circle cx="520" cy="180" r="2.5" fill="#ffd54f" opacity="0.15"/>
+          <circle cx="700" cy="160" r="1.8" fill="#f48fb1" opacity="0.16"/>
+          <circle cx="150" cy="350" r="2" fill="#88d498" opacity="0.14"/>
+          <circle cx="750" cy="320" r="1.5" fill="#ff8a65" opacity="0.18"/>
+          <circle cx="400" cy="400" r="2" fill="#ce93d8" opacity="0.12"/>
+          <circle cx="600" cy="380" r="1.8" fill="#2ec4b6" opacity="0.15"/>
+          <circle cx="820" cy="250" r="2.2" fill="#ffd54f" opacity="0.13"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <!-- ====== FLOATING BUBBLES ====== -->
+  <div id="bubbles-container"></div>
+
+  <!-- ====== CORAL REEF FLOOR ====== -->
+  <div class="coral-floor">
+    <svg class="coral-svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
+      <!-- Staghorn coral clusters -->
+      <g class="coral-group" fill="currentColor">
+        <path d="M0,200 Q20,160 40,170 Q50,140 70,155 Q85,130 100,150 Q115,115 140,140 Q155,100 180,135 L180,200 Z" class="coral-1"/>
+        <path d="M160,200 Q175,155 200,168 Q215,130 240,155 Q255,105 280,145 Q295,120 310,138 L310,200 Z" class="coral-2"/>
+        <!-- Brain coral -->
+        <ellipse cx="400" cy="175" rx="30" ry="22" class="brain-coral"/>
+        <!-- Branching coral -->
+        <path d="M370,200 L370,165 Q365,145 370,125 Q375,145 380,165 L380,200 Z" class="coral-stalk"/>
+        <path d="M370,125 Q360,110 365,95" class="coral-branch"/>
+        <path d="M370,125 Q380,110 375,95" class="coral-branch"/>
+        <path d="M370,145 Q358,135 362,118" class="coral-branch"/>
+        <!-- Fan coral -->
+        <path d="M480,200 Q490,155 510,140 Q520,110 510,80 Q530,60 540,80 Q550,110 530,140 Q520,155 530,200 Z" class="fan-coral"/>
+        <!-- More reef -->
+        <path d="M580,200 Q600,150 630,165 Q650,130 680,155 Q700,110 730,145 Q745,120 760,140 L760,200 Z" class="coral-1"/>
+        <ellipse cx="850" cy="170" rx="35" ry="25" class="brain-coral"/>
+        <path d="M780,200 Q800,160 820,172 Q840,140 860,165 Q880,125 900,155 Q915,130 930,148 L930,200 Z" class="coral-2"/>
+        <!-- Second fan coral -->
+        <path d="M980,200 Q990,160 1010,145 Q1020,115 1010,85 Q1030,65 1040,85 Q1050,115 1030,145 Q1020,160 1030,200 Z" class="fan-coral"/>
+        <path d="M1060,200 Q1080,155 1110,168 Q1130,135 1160,158 Q1180,120 1200,150 Q1215,130 1230,145 L1230,200 Z" class="coral-1"/>
+        <path d="M1250,200 Q1265,160 1290,172 Q1310,140 1330,162 Q1345,125 1360,152 L1360,200 Z" class="coral-2"/>
+        <path d="M1380,200 Q1395,150 1420,168 Q1435,130 1440,155 L1440,200 Z" class="coral-1"/>
+      </g>
+      <!-- Seagrass beds -->
+      <g class="seagrass" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <path d="M30,200 Q33,175 28,145 Q35,120 30,95" class="grass-1"/>
+        <path d="M42,200 Q45,180 40,155 Q47,130 42,108" class="grass-2"/>
+        <path d="M55,200 Q52,178 56,150 Q50,125 54,100" class="grass-1"/>
+        <path d="M220,200 Q224,172 218,148 Q226,122 220,100" class="grass-2"/>
+        <path d="M235,200 Q232,175 236,148 Q230,125 234,105" class="grass-1"/>
+        <path d="M450,200 Q453,178 448,152 Q455,128 450,105" class="grass-2"/>
+        <path d="M660,200 Q664,175 658,150 Q666,125 660,102" class="grass-1"/>
+        <path d="M850,200 Q853,180 848,155 Q855,130 850,108" class="grass-2"/>
+        <path d="M1100,200 Q1104,172 1098,148 Q1106,122 1100,100" class="grass-1"/>
+        <path d="M1120,200 Q1117,178 1122,152 Q1116,128 1120,105" class="grass-2"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ====== AUDIO CONTROL PANEL ====== -->
+  <div id="audio-panel" class="audio-panel">
+    <button class="audio-btn" id="btn-music" onclick="AudioPanel.toggleMusic()" title="Toggle Music">
+      <span class="audio-icon">🎵</span>
+    </button>
+    <button class="audio-btn" id="btn-voice" onclick="AudioPanel.toggleVoice()" title="Toggle Voice">
+      <span class="audio-icon">🗣️</span>
+    </button>
+    <button class="audio-btn" id="btn-sound" onclick="AudioPanel.toggleSound()" title="Toggle Sound Effects">
+      <span class="audio-icon">🔊</span>
+    </button>
+    <button class="audio-btn" id="btn-mute-all" onclick="AudioPanel.toggleMute()" title="Mute All">
+      <span class="audio-icon">🔇</span>
+    </button>
+  </div>
+
+  <!-- ====== WELCOME SCREEN ====== -->
+  <section id="screen-welcome" class="screen active">
+    <div class="screen-content welcome-content">
+      <div class="welcome-emblem">
+        <svg viewBox="0 0 120 120" class="emblem-svg">
+          <defs>
+            <radialGradient id="emblem-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(212, 175, 55, 0.4)"/>
+              <stop offset="100%" stop-color="rgba(212, 175, 55, 0)"/>
+            </radialGradient>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d4af37"/>
+              <stop offset="50%" stop-color="#f5e6a3"/>
+              <stop offset="100%" stop-color="#d4af37"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="55" fill="none" stroke="url(#goldGrad)" stroke-width="1.5" class="emblem-ring"/>
+          <circle cx="60" cy="60" r="48" fill="url(#emblem-glow)"/>
+          <!-- Seahorse -->
+          <path d="M60,25 Q65,30 63,38 Q68,42 65,50 Q67,55 63,60 Q65,68 60,75 Q55,80 58,88 Q55,92 52,88 Q48,82 52,75 Q48,70 50,63 Q46,58 48,50 Q44,45 48,38 Q45,32 50,28 Q55,22 60,25 Z"
+                fill="none" stroke="url(#goldGrad)" stroke-width="1.8" class="seahorse-path"/>
+          <!-- Crown -->
+          <path d="M45,22 L50,15 L55,20 L60,12 L65,20 L70,15 L75,22"
+                fill="none" stroke="url(#goldGrad)" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <h1 class="welcome-title">
+        <span class="title-line title-small">What Do You Think?</span>
+        <span class="title-line title-accent">Soufrière</span>
+        <span class="title-line title-sub">Underwater Discovery</span>
+      </h1>
+
+      <div class="welcome-divider">
+        <span class="divider-line"></span>
+        <span class="divider-icon">⚓</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <p class="welcome-desc">
+        Descend into the crystal waters of Soufrière, Saint Lucia and discover
+        the magnificent underwater world of the Marine Management Area.
+        <em>One fascinating question at a time.</em>
+      </p>
+
+      <div class="welcome-stats">
+        <div class="stat-item">
+          <span class="stat-number">100</span>
+          <span class="stat-label">Questions</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">∞</span>
+          <span class="stat-label">Wonder</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">1</span>
+          <span class="stat-label">Adventure</span>
+        </div>
+      </div>
+
+      <button id="btn-start" class="btn-royal" onclick="Game.start()">
+        <span class="btn-text">Begin Your Descent</span>
+        <span class="btn-icon">🐚</span>
+      </button>
+
+      <p class="welcome-footer">
+        Soufrière Marine Management Area • Saint Lucia, West Indies
+      </p>
+    </div>
+  </section>
+
+  <!-- ====== GAME SCREEN ====== -->
+  <section id="screen-game" class="screen">
+    <div class="screen-content game-content">
+      <!-- Top HUD -->
+      <div class="game-hud">
+        <div class="hud-left">
+          <div class="hud-item">
+            <span class="hud-label">Depth</span>
+            <span class="hud-value" id="hud-question">1 / 100</span>
+          </div>
+        </div>
+        <div class="hud-center">
+          <div class="depth-meter">
+            <div class="depth-fill" id="depth-fill"></div>
+            <div class="depth-marker" id="depth-marker"></div>
+          </div>
+        </div>
+        <div class="hud-right">
+          <div class="hud-item">
+            <span class="hud-label">Discoveries</span>
+            <span class="hud-value" id="hud-score">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Voice indicator -->
+      <div class="voice-indicator" id="voice-indicator" style="display:none;">
+        <div class="voice-waves">
+          <span class="wave"></span>
+          <span class="wave"></span>
+          <span class="wave"></span>
+          <span class="wave"></span>
+          <span class="wave"></span>
+        </div>
+        <span class="voice-label">Speaking...</span>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-stage">
+        <div id="question-card" class="question-card">
+          <!-- Category badge -->
+          <div class="card-category" id="card-category">
+            <span class="category-icon" id="category-icon">🐠</span>
+            <span class="category-text" id="category-text">Marine Life</span>
+          </div>
+
+          <!-- Question -->
+          <div class="card-question">
+            <p class="question-prefix">What Do You Think?</p>
+            <h2 class="question-text" id="question-text"></h2>
+          </div>
+
+          <!-- Answer options -->
+          <div class="card-options" id="card-options"></div>
+
+          <!-- Reveal section -->
+          <div class="card-reveal" id="card-reveal" style="display:none;">
+            <div class="reveal-header">
+              <span class="reveal-icon">🌊</span>
+              <span class="reveal-title">The Deep Truth</span>
+            </div>
+            <p class="reveal-answer" id="reveal-answer"></p>
+            <p class="reveal-fact" id="reveal-fact"></p>
+          </div>
+
+          <!-- Card actions -->
+          <div class="card-actions" id="card-actions">
+            <button class="btn-skip" id="btn-skip" onclick="Game.skipQuestion()" title="Skip question">
+              Surface Skip ↗
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score streak -->
+      <div class="streak-container" id="streak-container" style="display:none;">
+        <div class="streak-flame">🔥</div>
+        <span class="streak-count" id="streak-count">0</span>
+        <span class="streak-label">streak</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== RESULTS SCREEN ====== -->
+  <section id="screen-results" class="screen">
+    <div class="screen-content results-content">
+      <div class="results-emblem">
+        <svg viewBox="0 0 140 140" class="results-crown-svg">
+          <defs>
+            <linearGradient id="crownGold" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d4af37"/>
+              <stop offset="50%" stop-color="#f5e6a3"/>
+              <stop offset="100%" stop-color="#c9a82c"/>
+            </linearGradient>
+          </defs>
+          <circle cx="70" cy="70" r="65" fill="none" stroke="url(#crownGold)" stroke-width="1"/>
+          <circle cx="70" cy="70" r="58" fill="none" stroke="url(#crownGold)" stroke-width="0.5" stroke-dasharray="4 4"/>
+          <text x="70" y="80" text-anchor="middle" font-size="50" id="results-trophy">🏆</text>
+        </svg>
+      </div>
+
+      <h1 class="results-title" id="results-title">Ocean Explorer</h1>
+      <p class="results-subtitle" id="results-subtitle">Your journey through Soufrière's depths has revealed wonders beyond imagination.</p>
+
+      <div class="results-stats">
+        <div class="result-stat">
+          <div class="result-stat-circle" id="stat-score-circle">
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" class="stat-ring-bg"/>
+              <circle cx="50" cy="50" r="45" class="stat-ring-fill" id="stat-ring-fill"/>
+            </svg>
+            <div class="stat-ring-value">
+              <span class="stat-pct" id="stat-pct">0%</span>
+            </div>
+          </div>
+          <span class="result-stat-label">Correct</span>
+        </div>
+        <div class="result-stat">
+          <span class="result-stat-number" id="stat-discoveries">0</span>
+          <span class="result-stat-label">Discoveries</span>
+        </div>
+        <div class="result-stat">
+          <span class="result-stat-number" id="stat-streak">0</span>
+          <span class="result-stat-label">Best Streak</span>
+        </div>
+        <div class="result-stat">
+          <span class="result-stat-number" id="stat-accuracy">0%</span>
+          <span class="result-stat-label">Accuracy</span>
+        </div>
+      </div>
+
+      <div class="results-message" id="results-message">
+        <p></p>
+      </div>
+
+      <div class="results-cta">
+        <div class="cta-card">
+          <h3 class="cta-title">Ready to See It For Real?</h3>
+          <p class="cta-text">
+            The crystal waters of Soufrière are waiting to share these secrets with you.
+            Book your dive adventure and witness rainbow corals, dancing fish, and the
+            peaceful glide of a sea turtle.
+          </p>
+          <div class="cta-links">
+            <a href="https://smma.org.lc" target="_blank" class="btn-royal btn-cta-primary">
+              <span class="btn-text">Visit SMMA</span>
+              <span class="btn-icon">🌊</span>
+            </a>
+            <button class="btn-royal btn-cta-secondary" onclick="Game.restart()">
+              <span class="btn-text">Dive Again</span>
+              <span class="btn-icon">🔄</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="results-footer">
+        <p>Soufrière Marine Management Area • Saint Lucia, West Indies</p>
+        <p class="footer-tagline">Every dive is a discovery. Every question, an invitation to wonder.</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/questions.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/fish.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
