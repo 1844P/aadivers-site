@@ -4,6 +4,23 @@
 'use strict';
 document.addEventListener('DOMContentLoaded', () => {
 
+  // ============ HERO VIDEO FALLBACK ============
+  const heroVideo = document.querySelector('.hero-video');
+  if (heroVideo) {
+    heroVideo.play().catch(() => {
+      // Autoplay blocked — try on first interaction
+      const playOnInteraction = () => {
+        heroVideo.play().catch(() => {});
+        document.removeEventListener('click', playOnInteraction);
+        document.removeEventListener('touchstart', playOnInteraction);
+        document.removeEventListener('scroll', playOnInteraction);
+      };
+      document.addEventListener('click', playOnInteraction, { once: false });
+      document.addEventListener('touchstart', playOnInteraction, { once: false });
+      document.addEventListener('scroll', playOnInteraction, { once: false });
+    });
+  }
+
   // ============ NAVIGATION ============
   const navbar = document.getElementById('navbar');
   const navToggle = document.getElementById('navToggle');
