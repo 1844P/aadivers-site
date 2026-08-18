@@ -612,6 +612,91 @@ body {
 }
 
 /* ============================================
+   SURFACE NAV — Back to Home
+   ============================================ */
+.surface-nav {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 10px 14px;
+  background: rgba(6, 13, 26, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 30px;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 0.4s var(--ease-out-expo);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.3s both;
+}
+.surface-nav:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.15);
+}
+.surface-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+.surface-nav:hover .surface-nav-icon {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+.surface-nav-icon svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gold-light);
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.surface-nav:hover .surface-nav-icon svg {
+  transform: translateY(-2px);
+}
+.surface-nav-label {
+  color: var(--gold-light);
+  font-weight: 500;
+}
+@media (max-width: 768px) {
+  .surface-nav {
+    top: 12px;
+    left: 12px;
+    padding: 8px 16px 8px 10px;
+    font-size: 0.7rem;
+    gap: 8px;
+  }
+  .surface-nav-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .surface-nav-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+@media (max-width: 400px) {
+  .surface-nav-label { display: none; }
+  .surface-nav { padding: 10px; border-radius: 50%; }
+}
+
+/* ============================================
    AUDIO CONTROL PANEL
    ============================================ */
 .audio-panel {
