@@ -67,6 +67,9 @@ const AudioEngine = (() => {
     // Watery texture - modulated noise
     createWaterNoise();
 
+    // Gentle ocean waves
+    createWaveWash();
+
     // Distant whale-like calls
     scheduleWhaleCalls();
 
@@ -178,6 +181,124 @@ const AudioEngine = (() => {
     lfo.start();
 
     nodes.push(noise, lfo);
+  }
+
+  function createWaveWash() {
+    if (!ctx) return;
+    // Layer 1: Low rumble of distant waves
+    const bufSize1 = ctx.sampleRate * 4;
+    const buf1 = ctx.createBuffer(1, bufSize1, ctx.sampleRate);
+    const d1 = buf1.getChannelData(0);
+    for (let i = 0; i < bufSize1; i++) d1[i] = Math.random() * 2 - 1;
+
+    const noise1 = ctx.createBufferSource();
+    noise1.buffer = buf1;
+    noise1.loop = true;
+
+    const lpf1 = ctx.createBiquadFilter();
+    lpf1.type = 'lowpass';
+    lpf1.frequency.value = 300;
+    lpf1.Q.value = 0.7;
+
+    const gain1 = ctx.createGain();
+    gain1.gain.value = 0.06;
+
+    // LFO for volume swell (wave ebb and flow, ~6 second cycle)
+    const lfo1 = ctx.createOscillator();
+    const lfoGain1 = ctx.createGain();
+    lfo1.type = 'sine';
+    lfo1.frequency.value = 0.08;
+    lfoGain1.gain.value = 0.03;
+
+    lfo1.connect(lfoGain1);
+    lfoGain1.connect(gain1.gain);
+    noise1.connect(lpf1);
+    lpf1.connect(gain1);
+    gain1.connect(musicGain);
+
+    noise1.start();
+    lfo1.start();
+    nodes.push(noise1, lfo1);
+
+    // Layer 2: Mid-range surf hiss
+    const bufSize2 = ctx.sampleRate * 3;
+    const buf2 = ctx.createBuffer(1, bufSize2, ctx.sampleRate);
+    const d2 = buf2.getChannelData(0);
+    for (let i = 0; i < bufSize2; i++) d2[i] = Math.random() * 2 - 1;
+
+    const noise2 = ctx.createBufferSource();
+    noise2.buffer = buf2;
+    noise2.loop = true;
+
+    const bpf = ctx.createBiquadFilter();
+    bpf.type = 'bandpass';
+    bpf.frequency.value = 800;
+    bpf.Q.value = 0.4;
+
+    const gain2 = ctx.createGain();
+    gain2.gain.value = 0.025;
+
+    // LFO for filter sweep (wave crash receding)
+    const lfo2 = ctx.createOscillator();
+    const lfoGain2 = ctx.createGain();
+    lfo2.type = 'sine';
+    lfo2.frequency.value = 0.05;
+    lfoGain2.gain.value = 400;
+    lfo2.connect(lfoGain2);
+    lfoGain2.connect(bpf.frequency);
+
+    // LFO for volume
+    const lfo3 = ctx.createOscillator();
+    const lfoGain3 = ctx.createGain();
+    lfo3.type = 'sine';
+    lfo3.frequency.value = 0.12;
+    lfoGain3.gain.value = 0.015;
+    lfo3.connect(lfoGain3);
+    lfoGain3.connect(gain2.gain);
+
+    noise2.connect(bpf);
+    bpf.connect(gain2);
+    gain2.connect(musicGain);
+
+    noise2.start();
+    lfo2.start();
+    lfo3.start();
+    nodes.push(noise2, lfo2, lfo3);
+
+    // Layer 3: Gentle foam/spray high-freq shimmer
+    const bufSize3 = ctx.sampleRate * 2;
+    const buf3 = ctx.createBuffer(1, bufSize3, ctx.sampleRate);
+    const d3 = buf3.getChannelData(0);
+    for (let i = 0; i < bufSize3; i++) d3[i] = Math.random() * 2 - 1;
+
+    const noise3 = ctx.createBufferSource();
+    noise3.buffer = buf3;
+    noise3.loop = true;
+
+    const hpf = ctx.createBiquadFilter();
+    hpf.type = 'highpass';
+    hpf.frequency.value = 2000;
+    hpf.Q.value = 0.3;
+
+    const gain3 = ctx.createGain();
+    gain3.gain.value = 0.008;
+
+    // Very slow LFO for occasional spray
+    const lfo4 = ctx.createOscillator();
+    const lfoGain4 = ctx.createGain();
+    lfo4.type = 'sine';
+    lfo4.frequency.value = 0.03;
+    lfoGain4.gain.value = 0.006;
+    lfo4.connect(lfoGain4);
+    lfoGain4.connect(gain3.gain);
+
+    noise3.connect(hpf);
+    hpf.connect(gain3);
+    gain3.connect(musicGain);
+
+    noise3.start();
+    lfo4.start();
+    nodes.push(noise3, lfo4);
   }
 
   function scheduleWhaleCalls() {
