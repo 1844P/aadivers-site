@@ -342,6 +342,7 @@ const Game = (() => {
 
     // Update HUD
     ELEMENTS.hudScore.textContent = state.score;
+    popElement(ELEMENTS.hudScore, 'hud-pop');
     updateStreak();
 
     // Show reveal with voice
@@ -415,6 +416,7 @@ const Game = (() => {
     if (state.streak >= 3) {
       ELEMENTS.streakContainer.style.display = 'flex';
       ELEMENTS.streakCount.textContent = state.streak;
+      popElement(ELEMENTS.streakCount, 'pop');
     } else {
       ELEMENTS.streakContainer.style.display = 'none';
     }
@@ -446,6 +448,29 @@ const Game = (() => {
   function truncate(str, maxLen) {
     if (str.length <= maxLen) return str;
     return str.substring(0, maxLen).trim() + '...';
+  }
+
+  // ---------- LIVELY NUMBER UPDATES ----------
+
+  function animateNumber(el, to, duration = 600, suffix = '') {
+    if (!el) return;
+    const from = parseInt(el.textContent, 10) || 0;
+    if (from === to) return;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(from + (to - from) * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function popElement(el, className) {
+    if (!el) return;
+    el.classList.remove(className);
+    void el.offsetWidth;
+    el.classList.add(className);
   }
 
   // ---------- RESULTS ----------
@@ -482,10 +507,21 @@ const Game = (() => {
     ELEMENTS.resultsSubtitle.textContent = subtitle;
     $('#results-trophy').textContent = trophy;
 
-    ELEMENTS.statDiscoveries.textContent = state.correctCount;
-    ELEMENTS.statStreak.textContent = state.bestStreak;
-    ELEMENTS.statAccuracy.textContent = accuracy + '%';
-    ELEMENTS.statPct.textContent = accuracy + '%';
+    // Count up the stats for a lively reveal
+    ELEMENTS.statDiscoveries.textContent = '0';
+    ELEMENTS.statStreak.textContent = '0';
+    ELEMENTS.statAccuracy.textContent = '0%';
+    ELEMENTS.statPct.textContent = '0%';
+    setTimeout(() => {
+      animateNumber(ELEMENTS.statDiscoveries, state.correctCount, 900);
+      animateNumber(ELEMENTS.statStreak, state.bestStreak, 900);
+      animateNumber(ELEMENTS.statAccuracy, accuracy, 900, '%');
+      animateNumber(ELEMENTS.statPct, accuracy, 900, '%');
+      popElement(ELEMENTS.statDiscoveries, 'stat-pop');
+      popElement(ELEMENTS.statStreak, 'stat-pop');
+      popElement(ELEMENTS.statAccuracy, 'stat-pop');
+      popElement(ELEMENTS.statPct, 'stat-pop');
+    }, 700);
 
     const circumference = 2 * Math.PI * 45;
     const offset = circumference - (accuracy / 100) * circumference;

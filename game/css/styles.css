@@ -816,3 +816,209 @@ body {
   border: 1px solid rgba(212, 175, 55, 0.08);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
+
+/* ============================================
+   LIVE INTERFACE ENHANCEMENTS
+   ============================================ */
+
+/* Ocean gradient breathes and drifts slowly */
+.ocean-gradient {
+  animation: oceanBreath 26s ease-in-out infinite;
+}
+
+/* Extra volumetric rays */
+.ray-5 {
+  left: 8%; width: 7%; height: 60%;
+  clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+  animation: lightRaySway5 13s ease-in-out infinite alternate;
+  opacity: 0.5;
+}
+.ray-6 {
+  left: 68%; width: 9%; height: 72%;
+  clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
+  animation: lightRaySway4 12s ease-in-out infinite alternate;
+  opacity: 0.45;
+}
+
+/* Water surface shimmer sweep */
+.water-surface::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; left: 0; width: 60%;
+  background: linear-gradient(100deg,
+    transparent 30%, rgba(200, 240, 255, 0.07) 50%, transparent 70%);
+  animation: surfaceSweep 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Bubble highlight glint */
+.bubble::after {
+  content: '';
+  position: absolute; top: 22%; left: 26%;
+  width: 32%; height: 32%; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Cursor glow that follows the pointer */
+#cursor-glow {
+  position: fixed; top: 0; left: 0;
+  width: 340px; height: 340px;
+  border-radius: 50%;
+  pointer-events: none; z-index: 60;
+  background: radial-gradient(circle,
+    rgba(46, 196, 182, 0.10) 0%,
+    rgba(212, 175, 55, 0.05) 40%,
+    transparent 70%);
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+  animation: cursorBreath 4s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  will-change: transform;
+}
+body.cursor-active #cursor-glow { opacity: 1; }
+
+/* Click ripple rings */
+.ripple {
+  position: fixed; width: 44px; height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%; pointer-events: none; z-index: 70;
+  animation: rippleRing 0.7s ease-out forwards;
+}
+.ripple.gold { border: 2px solid rgba(212, 175, 55, 0.55); }
+.ripple.teal { border: 2px solid rgba(46, 196, 182, 0.5); }
+
+/* Gold title shimmer */
+.title-accent {
+  background-size: 200% auto;
+  animation: goldShimmer 7s linear infinite;
+}
+
+/* Logo gentle bob (hover scale stays on the link) */
+.welcome-logo { animation: floatBob 5s ease-in-out infinite; }
+
+/* Anchor divider bobs */
+.divider-icon {
+  display: inline-block;
+  animation: floatBob 3.5s ease-in-out infinite;
+}
+
+/* Royal button sheen sweep */
+.btn-royal::after {
+  content: '';
+  position: absolute; top: -10%; bottom: -10%; left: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: translateX(-130%) skewX(-18deg);
+  pointer-events: none;
+}
+.btn-royal:hover::after { animation: btnSheen 0.9s var(--ease-out-expo); }
+.btn-next::after {
+  content: '';
+  position: absolute; top: -10%; bottom: -10%; left: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  transform: translateX(-130%) skewX(-18deg);
+  pointer-events: none;
+}
+.btn-next:hover::after { animation: btnSheen 0.9s var(--ease-out-expo); }
+
+/* Option button press + correct pop */
+.option-btn:active { transform: scale(0.97); }
+.option-btn.correct {
+  animation: optionPop 0.45s var(--ease-out-expo);
+  box-shadow: 0 0 26px rgba(76, 175, 80, 0.22);
+}
+
+/* Depth meter: animated gradient + pulsing marker */
+.depth-fill {
+  background-size: 200% 100%;
+  background: linear-gradient(90deg, var(--turquoise), var(--gold), var(--turquoise)) 0 0 / 200% 100%;
+  animation: goldShimmer 5s linear infinite;
+}
+.depth-marker { animation: markerPulse 2.2s ease-in-out infinite; }
+
+/* HUD value pop (toggled by JS) */
+.hud-pop { animation: hudPop 0.45s var(--ease-out-expo); }
+.hud-anim { animation: riseIn 0.6s var(--ease-out-expo) both; }
+
+/* Streak flame flickers, count pops */
+.streak-flame {
+  display: inline-block;
+  animation: flameFlicker 1s ease-in-out infinite;
+  transform-origin: 50% 80%;
+}
+.streak-count.pop { animation: countPop 0.4s var(--ease-out-expo); }
+
+/* Trophy glow pulse on results */
+.results-crown-svg { animation: trophyGlow 3.2s ease-in-out infinite; }
+.results-emblem { animation: floatBob 4.5s ease-in-out infinite; }
+
+/* Results stat numbers pop (toggled by JS) */
+.stat-pop { animation: countPop 0.5s var(--ease-out-expo); }
+.result-stat { transition: transform 0.4s var(--ease-out-expo); }
+.result-stat:hover { transform: translateY(-4px); }
+
+/* ---- Question card: sway wrapper + 3D tilt ---- */
+.question-card-wrap {
+  position: relative;
+  width: 100%; max-width: 700px;
+  perspective: 1200px;
+  animation: underwaterSway 7s ease-in-out infinite;
+}
+.question-card-wrap::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  width: 112%; height: 124%;
+  background: radial-gradient(ellipse at center,
+    rgba(46, 196, 182, 0.10) 0%,
+    rgba(212, 175, 55, 0.05) 45%,
+    transparent 70%);
+  filter: blur(26px);
+  pointer-events: none;
+  animation: cardAura 9s ease-in-out infinite;
+}
+.question-card {
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.35s var(--ease-out-expo), box-shadow 0.35s ease;
+  will-change: transform;
+}
+
+/* Kelp silhouettes swaying at the edges */
+.kelp {
+  position: fixed; bottom: 0; z-index: 1;
+  pointer-events: none; opacity: 0.5;
+}
+.kelp-left  { left: 0;  transform-origin: bottom left;  animation: kelpSway 7s ease-in-out infinite alternate; }
+.kelp-right { right: 0; transform-origin: bottom right; animation: kelpSway2 8s ease-in-out infinite alternate; }
+.kelp svg { display: block; height: 230px; width: 120px; }
+.kelp-left svg { transform: scaleX(-1); }
+.kelp-blade { stroke: #1a5a7e; stroke-width: 3; fill: none; stroke-linecap: round; }
+.kelp-blade.thin { stroke-width: 2; opacity: 0.7; }
+
+/* Screen entrance stagger (replayed by ambience.js) */
+.replay-entrances .screen-content > * {
+  animation: riseIn 0.7s var(--ease-out-expo) both;
+}
+.replay-entrances .screen-content > *:nth-child(2) { animation-delay: 0.08s; }
+.replay-entrances .screen-content > *:nth-child(3) { animation-delay: 0.16s; }
+.replay-entrances .screen-content > *:nth-child(4) { animation-delay: 0.24s; }
+.replay-entrances .screen-content > *:nth-child(5) { animation-delay: 0.32s; }
+.replay-entrances .screen-content > *:nth-child(6) { animation-delay: 0.40s; }
+.replay-entrances .screen-content > *:nth-child(7) { animation-delay: 0.48s; }
+.replay-entrances .screen-content > *:nth-child(8) { animation-delay: 0.56s; }
+.replay-entrances .screen-content > *:nth-child(9) { animation-delay: 0.64s; }
+.replay-entrances .screen-content > *:nth-child(10) { animation-delay: 0.72s; }
+.replay-entrances .screen-content > *:nth-child(11) { animation-delay: 0.80s; }
+.replay-entrances .screen-content > *:nth-child(12) { animation-delay: 0.88s; }
+
+/* Welcome logo ring glows softly */
+.welcome-logo {
+  box-shadow:
+    0 0 30px rgba(212, 175, 55, 0.2),
+    0 0 60px rgba(46, 196, 182, 0.08);
+}
+
+@media (max-width: 768px) {
+  #cursor-glow { display: none; }
+  .kelp svg { height: 150px; width: 80px; }
+}

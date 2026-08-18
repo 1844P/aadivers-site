@@ -24,6 +24,8 @@
       <div class="light-ray ray-2"></div>
       <div class="light-ray ray-3"></div>
       <div class="light-ray ray-4"></div>
+      <div class="light-ray ray-5"></div>
+      <div class="light-ray ray-6"></div>
     </div>
 
     <!-- Layer 4: Water surface shimmer at top -->
@@ -205,6 +207,25 @@
   <!-- ====== FLOATING BUBBLES ====== -->
   <div id="bubbles-container"></div>
 
+  <!-- ====== KELP SILHOUETTES ====== -->
+  <div class="kelp kelp-left" aria-hidden="true">
+    <svg viewBox="0 0 120 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="kelp-blade" d="M40,230 Q30,180 46,140 Q62,100 44,55 Q38,30 52,0"/>
+      <path class="kelp-blade thin" d="M60,230 Q72,185 56,140 Q42,100 62,60 Q74,30 64,0"/>
+      <path class="kelp-blade thin" d="M84,230 Q76,195 88,155 Q98,115 82,75 Q72,45 84,10"/>
+    </svg>
+  </div>
+  <div class="kelp kelp-right" aria-hidden="true">
+    <svg viewBox="0 0 120 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="kelp-blade" d="M30,230 Q42,180 26,140 Q12,100 32,55 Q40,30 26,0"/>
+      <path class="kelp-blade thin" d="M55,230 Q42,185 58,140 Q74,100 52,60 Q40,30 52,0"/>
+      <path class="kelp-blade thin" d="M80,230 Q70,195 82,155 Q94,115 78,75 Q68,45 80,10"/>
+    </svg>
+  </div>
+
+  <!-- ====== CURSOR GLOW ====== -->
+  <div id="cursor-glow" aria-hidden="true"></div>
+
   <!-- ====== CORAL REEF FLOOR ====== -->
   <div class="coral-floor">
     <svg class="coral-svg" viewBox="0 0 1440 200" preserveAspectRatio="none">
@@ -364,6 +385,7 @@
 
       <!-- Question Card -->
       <div class="question-stage">
+        <div class="question-card-wrap">
         <div id="question-card" class="question-card">
           <!-- Category badge -->
           <div class="card-category" id="card-category">
@@ -397,6 +419,7 @@
             </button>
           </div>
         </div>
+        </div><!-- /question-card-wrap -->
       </div>
 
       <!-- Score streak -->
@@ -492,6 +515,7 @@
   <script src="js/audio.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/fish.js"></script>
+  <script src="js/ambience.js"></script>
   <script src="js/game.js"></script>
 </body>
 </html>
